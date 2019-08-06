@@ -1,7 +1,6 @@
 package datanapps.retrofitkotlin.view
 
 import androidx.appcompat.app.AppCompatActivity
-import datanapps.retrofitkotlin.R
 
 import android.os.Bundle
 import android.util.Log
@@ -9,38 +8,39 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import datanapps.retrofitkotlin.services.network.RetrofitEventListener
-import datanapps.retrofitkotlin.services.users.ApiUserRestClient
+import datanapps.retrofitkotlin.services.network.ApiUserRestClient
 import datanapps.retrofitkotlin.services.users.model.BaseUser
 import datanapps.retrofitkotlin.services.users.model.User
 import retrofit2.Call
+//import android.R
+
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        callUserListData();
+        setContentView(datanapps.retrofitkotlin.R.layout.activity_main)
+        getUserListData();
     }
 
-    internal fun callUserListData() {
+    internal fun getUserListData() {
 
         ApiUserRestClient.instance.getUserList( object : RetrofitEventListener {
             override  fun onSuccess(call: Call<*>, response: Any) {
                 if (response is BaseUser) {
-                    Log.d("NETWORK", "-----" + response.data!!.size)
+                    Log.d("NETWORK", "Request is made, response count: ${response.data!!.size}")
                     setRecycleViewList(response.data!!);
                 }
             }
 
             override fun onError(call: Call<*>, t: Throwable) {
-                Log.e("NETWORK", "Unable to Connecto ${t.message}")
-                // snack bar that city can not find
+                Log.e("NETWORK", "Unable to Connec to ${t.message}")
             }
         })
     }
 
     private fun setRecycleViewList(userList: List<User>) {
-        val recyclerView = findViewById<RecyclerView>(R.id.recycle_view_book)
+        val recyclerView = findViewById<RecyclerView>(datanapps.retrofitkotlin.R.id.recycle_view_book)
         val mAdapter = UsersAdapter(this@MainActivity, userList)
         val mLayoutManager = LinearLayoutManager(applicationContext)
         recyclerView.layoutManager = mLayoutManager

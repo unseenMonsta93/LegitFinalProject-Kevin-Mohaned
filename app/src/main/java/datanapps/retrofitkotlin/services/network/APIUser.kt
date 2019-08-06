@@ -1,4 +1,4 @@
-package datanapps.retrofitkotlin.services.users
+package datanapps.retrofitkotlin.services.network
 
 import datanapps.retrofitkotlin.services.users.model.BaseUser
 import retrofit2.Call

@@ -14,7 +14,8 @@ import datanapps.retrofitkotlin.R
 import datanapps.retrofitkotlin.services.users.model.User
 
 
-class UsersAdapter(private val context: Context, private val userList: List<User>) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
+class UsersAdapter(private val context: Context, private val userList: List<User>)
+    : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val itemView = LayoutInflater.from(parent.context)

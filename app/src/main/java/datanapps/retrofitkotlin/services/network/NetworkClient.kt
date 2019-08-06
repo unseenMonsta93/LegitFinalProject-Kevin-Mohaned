@@ -1,5 +1,6 @@
 package datanapps.retrofitkotlin.services.network
 
+import okhttp3.Interceptor
 import java.util.concurrent.TimeUnit
 
 import okhttp3.OkHttpClient
@@ -9,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkClient {
 
     private val BASE_URL = " https://demo1442788.mockable.io/"
+    private const val API_KEY = "ALKFJDLFJAKLDJFLDKJFDLKJFDKL"
     private val TIMEOUT = 10
     var retrofit: Retrofit? = null
     /*
@@ -19,7 +21,9 @@ object NetworkClient {
         get() {
             if (retrofit == null) {
                 val okHttpClientBuilder = OkHttpClient.Builder()
-                okHttpClientBuilder.connectTimeout(TIMEOUT.toLong(), TimeUnit.SECONDS)
+                        .addInterceptor(apiKeyInterceptor())
+                        .connectTimeout(TIMEOUT.toLong(), TimeUnit.SECONDS)
+//                okHttpClientBuilder.connectTimeout(TIMEOUT.toLong(), TimeUnit.SECONDS)
                 retrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -28,5 +32,21 @@ object NetworkClient {
             }
             return retrofit!!
         }
+
+    private fun apiKeyInterceptor() = injectQueryParams(
+            "api_key" to API_KEY
+    )
+    private fun injectQueryParams(
+            vararg params: Pair<String, String>
+    ): Interceptor = Interceptor { chain ->
+
+        val originalRequest = chain.request()
+        val urlWithParams = originalRequest.url().newBuilder()
+                .apply { params.forEach { addQueryParameter(it.first, it.second) } }
+                .build()
+        val newRequest = originalRequest.newBuilder().url(urlWithParams).build()
+
+        chain.proceed(newRequest)
+    }
 
 }

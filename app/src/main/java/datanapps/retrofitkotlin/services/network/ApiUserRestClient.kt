@@ -1,9 +1,7 @@
-package datanapps.retrofitkotlin.services.users
+package datanapps.retrofitkotlin.services.network
 
 import java.util.HashMap
 
-import datanapps.retrofitkotlin.services.network.NetworkClient
-import datanapps.retrofitkotlin.services.network.RetrofitEventListener
 import datanapps.retrofitkotlin.services.users.model.BaseUser
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,7 +21,6 @@ class ApiUserRestClient {
      * @param retrofitEventListener of RetrofitEventListener.
      */
 
-    //     https://reqres.in/api/users?page=1
     fun getUserList(retrofitEventListener: RetrofitEventListener) {
         val retrofit = NetworkClient.retrofitClient
         mApiUser = retrofit.create<APIUser>(APIUser::class.java)
