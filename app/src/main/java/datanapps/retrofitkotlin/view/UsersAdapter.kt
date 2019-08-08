@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import datanapps.retrofitkotlin.R
-import datanapps.retrofitkotlin.services.users.model.User
+import datanapps.retrofitkotlin.services.users.model.Product
 
 
-class UsersAdapter(private val context: Context, private val userList: List<User>)
+class UsersAdapter(private val context: Context, private val userList: List<Product>)
     : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -26,12 +26,12 @@ class UsersAdapter(private val context: Context, private val userList: List<User
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = userList[position]
-        holder.userName.text = user.firstName + " " + user.lastName
-        holder.userEmail.text = user.email
+        holder.boxPerimeter.text = user.width + user.height + user.width + user.height
+        holder.userLength.text = user.length
         Glide.with(context)
-                .load(user.avatar)
-                .apply(RequestOptions().fitCenter())
-                .into(holder.userIcon)
+               // .load(Product.Avatar)
+               // .apply(RequestOptions().fitCenter())
+               // .into(holder.userIcon)
 
     }
 
@@ -40,13 +40,13 @@ class UsersAdapter(private val context: Context, private val userList: List<User
     }
 
     inner class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var userName: TextView
-        var userEmail: TextView
+        var boxPerimeter: TextView
+        var userLength: TextView
         var userIcon: ImageView
 
         init {
-            userName = view.findViewById(R.id.layout_list_user_day_name)
-            userEmail = view.findViewById(R.id.layout_list_user_email)
+            boxPerimeter = view.findViewById(R.id.layout_list_user_day_name)
+            userLength = view.findViewById(R.id.layout_list_user_email)
             userIcon = view.findViewById(R.id.layout_list_user_icon)
 
         }
